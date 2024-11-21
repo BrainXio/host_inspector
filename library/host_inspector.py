@@ -66,7 +66,7 @@ class BaseInspection:
         This function ensures the logger is only set up once.
         """
         global logger
-        if logger is None:  # Only set up logger if it hasn't been set up yet
+        if logger is None:
             log_filename = os.path.join(log_path, "host_inspector.log")
             if not os.path.exists(log_path):
                 os.makedirs(log_path)
@@ -85,29 +85,32 @@ class BaseInspection:
     @staticmethod
     def _run_cmd(command, timeout=30, shell=True, check=True, text=True):
         """Run a shell command with error handling and timeout."""
-        logger.info(f"Running command: {command}")
+        logger.info("Running command: %s", command)
         try:
             result = subprocess.run(command, stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE, shell=shell,
                                     timeout=timeout, check=check, text=text)
-            logger.info(f"Command '{command}' completed successfully")
+            logger.info("Command '%s' completed successfully", command)
             return result.stdout.strip()
         except subprocess.TimeoutExpired:
-            logger.error(f"Command '{command}' timed out")
+            logger.error("Command '%s' timed out", command)
             return None
         except subprocess.CalledProcessError:
-            logger.error(f"Command '{command}' failed")
+            logger.error("Command '%s' failed", command)
             return None
 
     @staticmethod
     def _parse_cpu_info():
         """Parse /proc/cpuinfo to gather CPU information."""
         cpuinfo = {}
-        with open('/proc/cpuinfo', 'r') as f:
-            for line in f:
-                if ':' in line:
-                    key, value = map(str.strip, line.split(':', 1))
-                    cpuinfo[key] = value
+        try:
+            with open('/proc/cpuinfo', 'r') as f:
+                for line in f:
+                    if ':' in line:
+                        key, value = map(str.strip, line.split(':', 1))
+                        cpuinfo[key] = value
+        except IOError:
+            logger.warning("Could not read /proc/cpuinfo")
         return cpuinfo
 
     @staticmethod
