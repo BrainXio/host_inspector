@@ -3,9 +3,9 @@
 - name: Host inspector base inspection
   host_inspector:
     action: base-inspection
-  register: results
+  register: base_inspection
 
 - name: Debug base inspection
   ansible.builtin.debug:
-    var: results
+    var: base_inspection
   when: debug | default(false) | bool
