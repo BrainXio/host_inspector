@@ -24,6 +24,10 @@ jobs:
         with:
           python-version: '3.x'  # Ansible requires Python
 
+      - name: Copy role to roles directory
+        run: |
+          cp -r . /home/runner/.ansible/roles/host_inspector
+
       - name: Install ansible-lint
         run: |
           pip install ansible-lint yamllint
