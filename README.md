@@ -64,6 +64,10 @@ This role includes tasks that will gather host information using a custom Ansibl
   roles:
     - role: brainxio.host_inspector
       logging_path: "/custom/path/to/logs"
+  tasks:
+    - name: Show base inspection result
+      ansible.buitin.debug:
+        var: base_inspection
 ```
 
 ## License
