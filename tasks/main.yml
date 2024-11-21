@@ -4,11 +4,12 @@
 - name: Perform preparations
   block:
     - name: Ensuring directories exist
-      file:
+      ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        owner: "{{ lookup('env','USER') }}"
-        group: "{{ lookup('env','USER') }}"
+        owner: "{{ lookup('env', 'USER') }}"
+        group: "{{ lookup('env', 'USER') }}"
+        mode: "0755"
       loop:
         - "{{ logging_path }}"
         - "{{ data_path }}"

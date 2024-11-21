@@ -1,3 +1,4 @@
+---
 name: Ansible Lint
 
 on:
@@ -15,26 +16,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'  # Ansible requires Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Ansible requires Python
 
-    - name: Install ansible-lint
-      run: |
-        pip install ansible-lint yamllint
+      - name: Install ansible-lint
+        run: |
+          pip install ansible-lint yamllint
 
-    - name: Run ansible-lint
-      run: |
-        ansible-lint -v
-      # Here you can specify rules or exclude paths if needed:
-      # ansible-lint -v --exclude=path/to/exclude
+      - name: Run ansible-lint
+        run: |
+          ansible-lint -v
+        # Here you can specify rules or exclude paths if needed:
+        # ansible-lint -v --exclude=path/to/exclude
 
-    - name: Run yamllint
-      run: |
-        yamllint .
-      # Optionally customize yamllint config:
-      # yamllint . -c .yamllint.yml
+      - name: Run yamllint
+        run: |
+          yamllint .
+        # Optionally customize yamllint config:
+        # yamllint . -c .yamllint.yml
