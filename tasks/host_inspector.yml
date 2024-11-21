@@ -1,10 +1,10 @@
 ---
-- name: gather base inspection results
+- name: Host inspector base inspection
   host_inspector:
     verbosity: "{{ verbosity }}"
     action: base-inspection
   register: results
 
-- name: debug base inspection results 
+- name: Debug base inspection
   ansible.builtin.debug:
     var: results

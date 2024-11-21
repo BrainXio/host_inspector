@@ -3,7 +3,7 @@
 
 - name: Perform Preparations
   block:
-    - name: ensure directories exist
+    - name: Ensure directories exist
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
@@ -18,5 +18,5 @@
 
 - name: Host Inspection
   block:
-    - name: include tasks host inspector
+    - name: Include tasks host inspector
       ansible.builtin.include_tasks: host_inspector.yml
