@@ -27,7 +27,7 @@ jobs:
       - name: Copy role to roles directory
         run: |
           mkdir -p /home/runner/.ansible/roles
-          cp -r ../host_inspector /home/runner/.ansible/roles
+          cp -r ../ansible-role-host_inspector /home/runner/.ansible/roles/host_inspector
 
       - name: Install ansible-lint
         run: |
