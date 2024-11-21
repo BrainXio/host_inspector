@@ -119,8 +119,8 @@ class BaseInspection:
         logger.info("Defining system limits")
         return {
             'cpu_load': 80,  # Percentage
+            'disk_usage': 85,   # Percentage
             'memory_usage': 90,  # Percentage
-            'disk_usage': 85   # Percentage
         }
 
     @staticmethod
@@ -143,10 +143,10 @@ class BaseInspection:
                   'available': None, 'usage': None}
         network = {'hostname': socket.gethostname(), 'interfaces': {}}
         system = {
+            'architecture': platform.machine(),
             'os': platform.system(),
             'release': platform.release(),
             'version': platform.version(),
-            'architecture': platform.machine()
         }
 
         logger.info("Gathering CPU information")
@@ -210,10 +210,10 @@ class BaseInspection:
         msg = "System intelligence gathered."
 
         return {
-            'msg': msg,
             'cpu': cpu,
-            'memory': memory,
             'disk': disk,
+            'msg': msg,
+            'memory': memory,
             'network': network,
             'system': system,
             'limits': BaseInspection._define_limits()
@@ -265,18 +265,18 @@ class Processor:
         BaseInspection.setup_logging(log_path)
 
         result = {
-            'uuid': process_uuid,
-            'order_id': int(datetime.datetime.now().timestamp() * 1000),
-            'msg': '',
-            'env': BaseInspection.get_environment_variables(),
-            'meta': MetaData.get_metadata(),
             'changed': True,
-            'cpu': {},
-            'memory': {},
             'disk': {},
+            'cpu': {},
+            'env': BaseInspection.get_environment_variables(),
+            'limits': {},
+            'msg': '',
+            'meta': MetaData.get_metadata(),
+            'memory': {},
             'network': {},
+            'order_id': int(datetime.datetime.now().timestamp() * 1000),
             'system': {},
-            'limits': {}
+            'uuid': process_uuid,
         }
 
         if action == 'base-inspection':
