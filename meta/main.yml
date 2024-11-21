@@ -6,6 +6,7 @@ galaxy_info:
     checking apps, system info, network, security, Docker, GPU, and APIs.
   company: BrainXio
   namespace: brainxio
+  role_name: host_inspector
 
   issue_tracker_url: https://github.com/BrainXio/brainxio.host_inspector/issues
 
