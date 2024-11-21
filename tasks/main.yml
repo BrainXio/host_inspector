@@ -1,7 +1,6 @@
 ---
 # tasks file for BrainXio.host_inspector
-
-- name: Perform Preparations
+- name: Prepare Inspection
   block:
     - name: Ensure directories exist
       ansible.builtin.file:
@@ -18,5 +17,13 @@
 
 - name: Host Inspection
   block:
-    - name: Include tasks host inspector
+    - name: Load host inspector
+      host_inspector:
+      register: hello
+
+    - name: Host inspector hello
+      ansible.builtin.debug:
+        var: hello.msg
+
+    - name: Include host inspector tasks
       ansible.builtin.include_tasks: host_inspector.yml
