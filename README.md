@@ -47,7 +47,6 @@ data_path: "data"
 
 - `logging_path`: Directory where logs will be stored.
 - `data_path`: Directory where collected data might be written if needed.
-- `verbosity`: Controls the level of detail in the output. Higher values increase detail.
 
 ## Dependencies
 
