@@ -1,2 +1,16 @@
 ---
 # tasks file for brainxio.host_inspector
+
+- name: Perform preparations
+  block:
+    - name: Ensuring directories exist
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ lookup('env','USER') }}"
+        group: "{{ lookup('env','USER') }}"
+      loop:
+        - "{{ logging_path }}"
+        - "{{ data_path }}"
+      delegate_to: localhost
+      run_once: true
