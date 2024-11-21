@@ -47,6 +47,4 @@ jobs:
 
       - name: Run flake8
         run: |
-          flake8 ./library/host_inspector
-        # Optionally customize yamllint config:
-        # yamllint . -c .yamllint.yml
+          flake8 ./library/host_inspector.py
