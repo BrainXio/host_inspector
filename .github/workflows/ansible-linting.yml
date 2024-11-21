@@ -1,0 +1,46 @@
+---
+name: Ansible Lint
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches:
+      - 'feature/**'
+      - 'bugfix/**'
+      - 'hotfix/**'
+
+jobs:
+  lint:
+    name: Lint Ansible Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Ansible requires Python
+
+      - name: Copy role to roles directory
+        run: |
+          mkdir -p /home/runner/.ansible/roles
+          cp -r ../host_inspector /home/runner/.ansible/roles
+
+      - name: Install ansible-lint
+        run: |
+          pip install ansible-lint yamllint
+
+      - name: Run ansible-lint
+        run: |
+          ansible-lint -v
+        # Here you can specify rules or exclude paths if needed:
+        # ansible-lint -v --exclude=path/to/exclude
+
+      - name: Run yamllint
+        run: |
+          yamllint .
+        # Optionally customize yamllint config:
+        # yamllint . -c .yamllint.yml
