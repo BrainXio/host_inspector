@@ -117,11 +117,11 @@ class BaseInspection:
     def _define_limits():
         """Set up system limits data structure."""
         logger.info("Defining system limits")
-        return {
+        return { 'percent': {
             'cpu_load': 80,  # Percentage
             'disk_usage': 85,   # Percentage
             'memory_usage': 90,  # Percentage
-        }
+        }}
 
     @staticmethod
     def execute(process_uuid, log_path='logs/'):
@@ -265,28 +265,52 @@ class Processor:
         BaseInspection.setup_logging(log_path)
 
         result = {
-            'changed': True,
-            'cpu': {},
-            'disk': {},
-            'env': BaseInspection.get_environment_variables(),
-            'limits': {},
+            'changed': False,
             'msg': '',
-            'meta': MetaData.get_metadata(),
-            'memory': {},
-            'network': {},
-            'order_id': int(datetime.datetime.now().timestamp() * 1000),
-            'system': {},
-            'uuid': process_uuid,
+            'failed': False,
+            'ansible_facts': {
+                'host_inspector': {
+                    'uuid': process_uuid,
+                    'order_id': int(datetime.datetime.now().timestamp() * 1000),
+                    'environment': BaseInspection.get_environment_variables(),
+                    'metadata': MetaData.get_metadata(),
+                    'cpu': {},
+                    'disk': {},
+                    'memory': {},
+                    'network': {},
+                    'system': {},
+                    'limits': {}
+                }
+            }
         }
 
         if action == 'base-inspection':
             intel_result = BaseInspection.execute(process_uuid, log_path)
-            result.update(intel_result)
+            result['ansible_facts']['host_inspector'].update({
+                'cpu': intel_result['cpu'],
+                'disk': intel_result['disk'],
+                'memory': intel_result['memory'],
+                'network': intel_result['network'],
+                'system': intel_result['system'],
+                'limits': intel_result['limits']
+            })
             result['msg'] = MessageHandler.format_message(
                 intel_result['msg'], prepend, append)
+            result['changed'] = True
         else:
             result['msg'] = MessageHandler.format_message(
                 MessageHandler.hello_world(), prepend, append)
+
+        # Adding invocation details for Ansible to show how the module was called
+        result['invocation'] = {
+            'module_args': {
+                'action': action,
+                'prepend': prepend,
+                'append': append,
+                'log_path': log_path
+            }
+        }
+
         return result
 
 
