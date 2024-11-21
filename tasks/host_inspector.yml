@@ -1,19 +1,10 @@
 ---
-- name: Loading Inspector!
-  host_inspector:
-    verbosity: 1
-  register: data
-
-- name: Hello World
-  ansible.builtin.debug:
-    var: data.msg
-
-- name: Gather host intel
+- name: gather base inspection results
   host_inspector:
     verbosity: "{{ verbosity }}"
     action: base-inspection
-  register: data
+  register: results
 
-- name: Debug data
+- name: debug base inspection results 
   ansible.builtin.debug:
-    var: data
+    var: results
