@@ -266,8 +266,8 @@ class Processor:
 
         result = {
             'changed': True,
-            'disk': {},
             'cpu': {},
+            'disk': {},
             'env': BaseInspection.get_environment_variables(),
             'limits': {},
             'msg': '',
