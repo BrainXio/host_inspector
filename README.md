@@ -1,4 +1,4 @@
-# Ansible Role: BrainXio.host_inspector
+# Ansible Role: brainxio.host_inspector
 
 This Ansible role provides a custom module for inspecting host systems, gathering various system information, and logging. It includes functionalities for checking CPU usage, memory status, disk information, network details, and system metadata.
 

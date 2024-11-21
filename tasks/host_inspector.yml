@@ -1,4 +1,5 @@
 ---
+# tasks file for brainxio.host_inspector
 - name: Host inspector base inspection
   host_inspector:
     action: base-inspection

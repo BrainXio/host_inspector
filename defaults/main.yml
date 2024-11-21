@@ -1,5 +1,4 @@
 ---
-# defaults file for BrainXio.host_inspector
-
+# defaults file for brainxio.host_inspector
 logging_path: "logs"
 data_path: "data"

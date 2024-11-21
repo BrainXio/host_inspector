@@ -1,5 +1,5 @@
 ---
-# tasks file for BrainXio.host_inspector
+# tasks file for brainxio.host_inspector
 - name: Prepare Inspection
   block:
     - name: Ensure directories exist
