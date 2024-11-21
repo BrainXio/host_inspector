@@ -1,88 +1,80 @@
-Role Name
-=========
+# Ansible Role: BrainXio.host_inspector
 
-**host_inspector**
+This Ansible role provides a custom module for inspecting host systems, gathering various system information, and logging. It includes functionalities for checking CPU usage, memory status, disk information, network details, and system metadata.
 
-This Ansible role conducts a comprehensive audit of host systems, evaluating aspects like installed applications, system health, network connectivity, security settings, Docker and GPU status, as well as the operational status of critical API services.
+## Table of Contents
 
-Requirements
-------------
+- [Installation](#installation)
+- [Requirements](#requirements)
+- [Role Variables](#role-variables)
+    - [Defaults](#defaults)
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+    - [Example Playbook](#example-playbook)
+- [License](#license)
+- [Author Information](#author-information)
 
-- **Ansible**: Version 2.1 or higher.
-- **Python**: Required on the target hosts for executing Python scripts.
-- **Sudo Privileges**: Some checks might need elevated permissions.
+## Installation
 
-Role Variables
---------------
+To install this role, you can use `ansible-galaxy`:
 
-**defaults/main.yml:**
+```sh
+ansible-galaxy install brainxio.host_inspector
+```
 
-- **apps_to_check**: List of applications to check for installation:
+Or you can clone the repository directly:
 
-  ```yaml
-  apps_to_check:
-    - curl
-    - docker
-  ```
+```sh
+git clone <repository_url> /path/to/your/roles/brainxio.host_inspector
+```
 
-- **apis_to_test**: List of APIs to test:
+## Requirements
 
-```yaml
-  apis_to_test:
-    - name: "ollama"
-      url: "http://127.0.0.1"
-      port: 11434
-      endpoint: "/"
-      expected_result: "Ollama is running"
-    - name: "prometheus"
-      port: 9090
-      endpoint: "/-/healthy"
-    - name: "grafana"
-      port: 3000
-      endpoint: "/api/health"
-  ```
+- **Ansible**: >= 2.9
+- **Python**: >= 3.5 on the controller node
+- **Operating System**: This role has been tested on Linux distributions. It might require adjustments for other operating systems.
 
-- **api_test_timeout**: Timeout for API tests (default: 10 seconds).
+## Role Variables
 
-These can be adjusted in the playbook or inventory file to suit specific needs.
+### Defaults
 
-Dependencies
-------------
-
-While there are no explicit role dependencies, ensure all required system tools and Python libraries are installed on the hosts.
-
-Example Playbook
-----------------
-
-Usage example:
+The role uses the following default variables which can be overridden:
 
 ```yaml
+logging_path: "logs"
+data_path: "data"
+verbosity: 0
+```
+
+- `logging_path`: Directory where logs will be stored.
+- `data_path`: Directory where collected data might be written if needed.
+- `verbosity`: Controls the level of detail in the output. Higher values increase detail.
+
+## Dependencies
+
+None explicitly, but it assumes that the system supports standard Unix commands for system inspection.
+
+## Usage
+
+This role includes tasks that will gather host information using a custom Ansible module `host_inspector`.
+
+### Example Playbook
+
+```yaml
+---
 - hosts: all
   roles:
     - role: brainxio.host_inspector
-
-      vars:
-        debug: true
-        apps_to_check:
-          - curl
-          - docker
-        apis_to_test:
-          - name: "grafana"
-            port: 3001
-            endpoint: "/api/health"
+      logging_path: "/custom/path/to/logs"
+      verbosity: 2
 ```
 
-License
--------
+## License
 
-**The-Unlicense**
+[The Unlicense](UNLICENSE)
 
-Author Information
-------------------
+## Author Information
 
-For inquiries or issues related to `host_inspector`, please contact:
+This role was created by [BrainXio](https://github.com/BrainXio).
 
-- **Author**: Mister Robot  
-- **Company**: BrainXio
-
-More information or to report issues, visit the GitHub repository for this role.
+Feel free to contribute, report issues, or suggest enhancements via the GitHub repository.

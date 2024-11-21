@@ -1,5 +1,5 @@
 ---
-# tasks file for brainxio.host_inspector
+# tasks file for BrainXio.host_inspector
 
 - name: Perform preparations
   block:
@@ -16,7 +16,7 @@
       delegate_to: localhost
       run_once: true
 
-- name: Basic host inspection
+- name: Start host inspection
   block:
-    - name: Include default inspection
-      ansible.builtin.include_tasks: default_inspection.yml
+    - name: Include Host Inspector
+      ansible.builtin.include_tasks: host_inspector.yml
