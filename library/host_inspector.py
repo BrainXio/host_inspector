@@ -25,21 +25,14 @@ class MessageHandler:
     """Class for handling and manipulating message content."""
 
     @staticmethod
-    def hello_world(verbosity=0):
-        """Generate a greeting message based on verbosity level, including primary keys of the result object.
-
-        Args:
-            verbosity (int): The level of detail in the greeting.
+    def hello_world():
+        """Generate a greeting message.
 
         Returns:
             str: A greeting message with the primary keys of the result object.
         """
         user = os.environ.get('USER', 'World')
         greeting = f"Hello, {user}!"
-        if verbosity > 0:
-            primary_keys = ['uuid', 'order_id', 'msg', 'cpu', 'memory', 'disk', 'network', 'system', 'limits', 'env', 'meta', 'changed']
-            key_info = "Primary keys in result: " + ", ".join(primary_keys)
-            greeting += f" {key_info}"
         return greeting
 
     @staticmethod
@@ -132,7 +125,7 @@ class BaseInspection:
         }
 
     @staticmethod
-    def execute(verbosity=0):
+    def execute():
         """Execute the host intel gathering action.
 
         Args:
@@ -208,10 +201,6 @@ class BaseInspection:
 
         # Prepare the response
         msg = "System intelligence gathered."
-        if verbosity > 0:
-            # Only include info here that isn't already in 'info'
-            # Since we're avoiding duplication, we'll keep this minimal
-            pass
         
         return {
             'msg': msg,
@@ -252,12 +241,11 @@ class Processor:
     """Main class to process and manage different inspection tasks."""
 
     @staticmethod
-    def process(action, verbosity=0, prepend='', append=''):
+    def process(action, prepend='', append=''):
         """Select and execute the proper action.
 
         Args:
             action (str): The action to perform.
-            verbosity (int): Verbosity level.
             prepend (str): String to prepend to messages.
             append (str): String to append to messages.
 
@@ -286,15 +274,11 @@ class Processor:
         }
 
         if action == 'base-inspection':
-            intel_result = BaseInspection.execute(verbosity)
+            intel_result = BaseInspection.execute()
             result.update(intel_result)  # Update result with all keys from intel_result
             result['msg'] = MessageHandler.format_message(intel_result['msg'], prepend, append)
         else:  # Default to hello_world if no action specified or unknown action
-            result['msg'] = MessageHandler.format_message(MessageHandler.hello_world(verbosity), prepend, append)
-
-        if verbosity > 0:
-            result['msg'] += f" Module path: {os.path.dirname(os.path.abspath(__file__))}"
-
+            result['msg'] = MessageHandler.format_message(MessageHandler.hello_world(), prepend, append)
         return result
 
 #---------------------------------------------------------------------------------------
@@ -303,7 +287,6 @@ class Processor:
 def run_module():
     """Main function to execute the host_inspector module."""
     module_args = dict(
-        verbosity=dict(type='int', required=False, default=0),
         action=dict(type='str', required=False, default=None),
         prepend=dict(type='str', required=False, default=''),
         append=dict(type='str', required=False, default='')
@@ -316,7 +299,7 @@ def run_module():
 
     try:
         params = module.params
-        result = Processor.process(params['action'], params['verbosity'], params['prepend'], params['append'])
+        result = Processor.process(params['action'], params['prepend'], params['append'])
         module.exit_json(**result)
     except Exception as e:
         module.fail_json(msg=f'An error occurred: {e}')
