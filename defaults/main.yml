@@ -3,5 +3,3 @@
 
 logging_path: "logs"
 data_path: "data"
-
-verbosity: 0

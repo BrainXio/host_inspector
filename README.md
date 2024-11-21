@@ -43,7 +43,6 @@ The role uses the following default variables which can be overridden:
 ```yaml
 logging_path: "logs"
 data_path: "data"
-verbosity: 0
 ```
 
 - `logging_path`: Directory where logs will be stored.
@@ -66,7 +65,6 @@ This role includes tasks that will gather host information using a custom Ansibl
   roles:
     - role: brainxio.host_inspector
       logging_path: "/custom/path/to/logs"
-      verbosity: 2
 ```
 
 ## License
