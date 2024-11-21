@@ -15,3 +15,8 @@
         - "{{ data_path }}"
       delegate_to: localhost
       run_once: true
+
+- name: Basic host inspection
+  block:
+    - name: Include default inspection
+      ansible.builtin.include_tasks: default_inspection.yml
