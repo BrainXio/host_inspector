@@ -117,11 +117,12 @@ class BaseInspection:
     def _define_limits():
         """Set up system limits data structure."""
         logger.info("Defining system limits")
-        return { 'percent': {
-            'cpu_load': 80,  # Percentage
-            'disk_usage': 85,   # Percentage
-            'memory_usage': 90,  # Percentage
-        }}
+        return {
+            'percent': {
+                'cpu_load': 80,
+                'disk_usage': 85,
+                'memory_usage': 90
+            }}
 
     @staticmethod
     def execute(process_uuid, log_path='logs/'):
@@ -271,7 +272,8 @@ class Processor:
             'ansible_facts': {
                 'host_inspector': {
                     'uuid': process_uuid,
-                    'order_id': int(datetime.datetime.now().timestamp() * 1000),
+                    'order_id': int(
+                        datetime.datetime.now().timestamp() * 1000),
                     'environment': BaseInspection.get_environment_variables(),
                     'metadata': MetaData.get_metadata(),
                     'cpu': {},
@@ -301,7 +303,7 @@ class Processor:
             result['msg'] = MessageHandler.format_message(
                 MessageHandler.hello_world(), prepend, append)
 
-        # Adding invocation details for Ansible to show how the module was called
+        # Adding invocation details for Ansible
         result['invocation'] = {
             'module_args': {
                 'action': action,
