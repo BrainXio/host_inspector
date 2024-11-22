@@ -1,0 +1,12 @@
+---
+# tasks file for brainxio.host_inspector
+- name: Host inspector base inspection
+  host_inspector:
+    action: base-inspection
+    log_path: "{{ logging_path }}"
+  register: base_inspection
+
+- name: Debug base inspection
+  ansible.builtin.debug:
+    var: base_inspection
+  when: debug | default(false) | bool

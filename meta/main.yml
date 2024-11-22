@@ -1,4 +1,5 @@
 ---
+# meta file for brainxio.host_inspector
 galaxy_info:
   author: Mister Robot
   description: |
@@ -8,7 +9,8 @@ galaxy_info:
   namespace: brainxio
   role_name: host_inspector
 
-  issue_tracker_url: https://github.com/BrainXio/brainxio.host_inspector/issues
+  issue_tracker_url: |
+    https://github.com/BrainXio/ansible-role-host_inspector/issues
 
   license: The Unlicense
 

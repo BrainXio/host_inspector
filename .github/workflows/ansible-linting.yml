@@ -31,7 +31,7 @@ jobs:
 
       - name: Install ansible-lint
         run: |
-          pip install ansible-lint yamllint
+          pip install ansible-lint yamllint flake8
 
       - name: Run ansible-lint
         run: |
@@ -44,3 +44,7 @@ jobs:
           yamllint .
         # Optionally customize yamllint config:
         # yamllint . -c .yamllint.yml
+
+      - name: Run flake8
+        run: |
+          flake8 ./library/host_inspector.py
